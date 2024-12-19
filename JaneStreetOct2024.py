@@ -17,10 +17,13 @@ knight_moves = [
 def is_within_bounds(x, y):
     return 0 <= x < BOARD_SIZE and 0 <= y < BOARD_SIZE
 
+# Initialization
 t_start = time.time()
 number_set = [0, 0, 0]
 step_duration = []
 step_time = [t_start]
+
+# Going in a decreasing way over the possible values of total_sum.
 for total_sum in range(START_SUM, 5, -1):
     print(total_sum)
     def find_solution():
@@ -29,6 +32,7 @@ for total_sum in range(START_SUM, 5, -1):
                 number_set[2] = C
                 number_set[1] = B
                 number_set[0] = total_sum - C - B
+                # Make sure that all numbers are unique (as required by the assignment)
                 if len(set(number_set)) < 3:
                     continue
 
@@ -78,7 +82,7 @@ for total_sum in range(START_SUM, 5, -1):
                             path.pop()
 
 
-                # Main function to start the path-finding from the top-left corner to the bottom-right
+                # Main function to start the path-finding from the top-left corner to the bottom-right, or bottom-left to top-right
                 def knight_paths(method='regular'):
                     all_paths = []
                     if method == 'regular':
@@ -104,7 +108,7 @@ for total_sum in range(START_SUM, 5, -1):
                 if len(all_knight_paths_regular) > 0:
                     all_knight_paths_cross = knight_paths('cross')
                     if len(all_knight_paths_cross) > 0:
-                        # Print paths that exactly reach the target score and end in the opposite corner
+                        # If from both corners a valid path is found, print the first solution, append the counters and move to the next value of total_sum
                         matching_paths_regular = [path for path, score in all_knight_paths_regular if score == TARGET_SCORE]
                         matching_paths_cross = [path for path, score in all_knight_paths_cross if score == TARGET_SCORE]
                         print("Example path (with cell numbers and exact target score):", matching_paths_regular[0])
